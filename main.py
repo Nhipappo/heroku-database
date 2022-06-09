@@ -2,7 +2,7 @@ import os
 import telebot
 from flask import Flask, request
 
-TOKEN = '5417397811:AAFbFemNwbv2vQZC2w8ubBZD74fsCVX6-04'
+TOKEN = '5572856864:AAF8OKd8cSUuZb9YGxwyRz8SxhvF6ghysKE'
 APP_URL = f'https://virtualjaheroku.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -18,12 +18,13 @@ def echo(message):
     bot.send_message(message.from_user.id, message.text)
 
 
-@server.route('/'+TOKEN,methods=['POST'])
+@server.route('/'+TOKEN, methods=['POST'])
 def get_message():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
     bot.process_new_updates([update])
     return '!', 200
+
 
 @server.route('/')
 def webhook():
@@ -34,4 +35,3 @@ def webhook():
 
 if __name__ == '__main__':
     server.run(host='0.0.0.0', port=int(os.environ.get('PORT')))
-
